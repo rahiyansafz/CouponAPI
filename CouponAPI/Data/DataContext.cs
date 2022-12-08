@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace CouponAPI.Data;
+﻿namespace CouponAPI.Data;
 
 public class DataContext : DbContext
 {

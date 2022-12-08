@@ -76,19 +76,19 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.MapGet("/api/coupon/special", (string CouponName, int PageSize, int Page, ILogger<Program> _logger, DataContext _ctx) =>
-{
-    if (CouponName is not null)
-        return _ctx.Coupons.Where(u => u.Name.Contains(CouponName)).Skip((Page - 1) * PageSize).Take(PageSize);
-    return _ctx.Coupons.Skip((Page - 1) * PageSize).Take(PageSize);
-});
-
-//app.MapGet("/api/coupon/special", ([AsParameters] CouponRequest req, DataContext _ctx) =>
+//app.MapGet("/api/coupon/special", (string CouponName, int PageSize, int Page, ILogger<Program> _logger, DataContext _ctx) =>
 //{
-//    if (req.CouponName is not null)
-//        return _ctx.Coupons.Where(u => u.Name.Contains(req.CouponName)).Skip((req.Page - 1) * req.PageSize).Take(req.PageSize);
-//    return _ctx.Coupons.Skip((req.Page - 1) * req.PageSize).Take(req.PageSize);
+//    if (CouponName is not null)
+//        return _ctx.Coupons.Where(u => u.Name.Contains(CouponName)).Skip((Page - 1) * PageSize).Take(PageSize);
+//    return _ctx.Coupons.Skip((Page - 1) * PageSize).Take(PageSize);
 //});
+
+app.MapGet("/api/coupon/special", ([AsParameters] CouponRequest req, DataContext _ctx) =>
+{
+    if (req.CouponName is not null)
+        return _ctx.Coupons.Where(u => u.Name.Contains(req.CouponName)).Skip((req.Page - 1) * req.PageSize).Take(req.PageSize);
+    return _ctx.Coupons.Skip((req.Page - 1) * req.PageSize).Take(req.PageSize);
+});
 
 app.ConfigureCouponEndpoints();
 app.ConfigureAuthEndpoints();
@@ -96,12 +96,12 @@ app.ConfigureAuthEndpoints();
 app.Run();
 
 
-//class CouponRequest
-//{
-//    public string CouponName { get; set; }
-//    [FromHeader(Name = "PageSize")]
-//    public int PageSize { get; set; }
-//    [FromHeader(Name = "Page")]
-//    public int Page { get; set; }
-//    public ILogger<CouponRequest> Logger { get; set; }
-//}
+class CouponRequest
+{
+    public string CouponName { get; set; }
+    [FromHeader(Name = "PageSize")]
+    public int PageSize { get; set; }
+    [FromHeader(Name = "Page")]
+    public int Page { get; set; }
+    public ILogger<CouponRequest> Logger { get; set; }
+}

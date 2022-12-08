@@ -1,7 +1,4 @@
-﻿using CouponAPI.Services.Contracts;
-using Microsoft.EntityFrameworkCore;
-
-namespace CouponAPI.Services;
+﻿namespace CouponAPI.Services;
 
 public class CouponService : ICouponService
 {
